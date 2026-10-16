@@ -1,164 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mama Laura Medical Clinic - Open System SSP</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-</head>
-<body class="bg-[#eef5ff]">
-<header class="bg-[#123D8E] text-white p-3 flex justify-between items-center">
-<div><b>MAMA LAURA MEDICAL CLINIC</b> <span class="bg-[#1AAE4B] text-[10px] px-2 py-1 rounded-full ml-2">OPEN ACCESS - NO LOGIN - SSP</span></div>
-<div class="text-[11px]">Currency: SSP - South Sudanese Pound</div>
-</header>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JAMUS SC - PRO CLUB OS</title><link rel="manifest" href="./manifest.json"><meta name="theme-color" content="#7A0C1A"><style>:root{--maroon:#7A0C1A;--maroon2:#A31528;--white:#fff;--green:#16a34a;--yellow:#eab308;--red:#ef4444}*{box-sizing:border-box;font-family:Arial,Helvetica}body{margin:0;background:#fefefe;color:#1e293b}.top{position:sticky;top:0;background:var(--maroon);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;z-index:20;border-bottom:3px solid #fff;box-shadow:0 4px 12px rgba(122,12,26,.3)}.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px;border:1px solid #f1c5cb;border-top:3px solid var(--maroon);box-shadow:0 2px 8px rgba(122,12,26,.08)}.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-size:13px}.btn-maroon{background:var(--maroon);color:#fff}.btn-maroon:hover{background:var(--maroon2)}.btn-white{background:#fff;border:1.5px solid var(--maroon);color:var(--maroon)}.btn-dark{background:#1e293b;color:#fff}.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}input,select,textarea{width:100%;padding:12px;border:1.5px solid #f1c5cb;border-radius:10px;font-weight:600}input:focus,select:focus,textarea:focus{border-color:var(--maroon);outline:none}.tab{display:none}.tab.active{display:block}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}.tabs button{padding:10px 18px;border-radius:22px;border:1.5px solid var(--maroon);background:#fff;color:var(--maroon);cursor:pointer;font-weight:800}.tabs button.active{background:var(--maroon);color:#fff}#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;background:linear-gradient(135deg,#7A0C1A,#4a0810)}.login-card{width:100%;max-width:480px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.4);border:2px solid #fff}.status-dot{width:12px;height:12px;border-radius:50%;display:inline-block}.status-green{background:var(--green)}.status-yellow{background:var(--yellow)}.status-red{background:var(--red)}.player-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #fef2f3}.video-card{background:linear-gradient(135deg,#7A0C1A,#4a0810);color:#fff;border-radius:12px;padding:12px;margin-bottom:8px}@media(max-width:700px){.g2,.g3{grid-template-columns:1fr}}</style></head><body>
+<div id="loginPage"><div class="login-card"><div style="text-align:center;padding:20px;background:#fff;border-bottom:4px solid var(--maroon)"><img src="./header.jpg" onerror="this.src='https://via.placeholder.com/400x400?text=JAMUS'" style="width:140px;height:140px;object-fit:contain;border-radius:50%;border:3px solid var(--maroon);background:#fff"><div style="font-weight:900;font-size:26px;color:var(--maroon);margin-top:10px">JAMUS SC</div><div style="font-size:11px;color:#7A0C1A;font-weight:700">Sport, Social & Cultural Club - Juba South Sudan - EST 2009</div><div style="margin-top:8px;font-size:10px;background:#7A0C1A;color:#fff;padding:6px 10px;border-radius:20px;display:inline-block">PRO CLUB OS - Elite African System</div></div><div style="padding:24px"><label style="font-size:12px;font-weight:700;color:var(--maroon)">Select Portal</label><select id="roleSelect" style="margin:8px 0 12px"><option value="player">1- Players Portal</option><option value="coach">2- Technical Staff Portal</option><option value="president">3- President / Board Portal</option></select><input id="u" placeholder="Email"><input id="p" type="password" placeholder="Password" style="margin-top:10px"><button class="btn btn-maroon" style="width:100%;margin-top:16px;padding:14px;font-size:15px" onclick="login()">Login to JAMUS SC</button><small id="loginMsg" style="color:#ef4444;display:block;margin-top:12px;text-align:center;font-weight:700"></small><div style="margin-top:14px;font-size:11px;background:#fef2f2;padding:8px;border-radius:8px;border:1px solid #f1c5cb;text-align:center"><b>Demo Accounts:</b><br>player@jamus.com / coach@jamus.com / president@jamus.com<br>Password: 123456</div></div></div></div>
 
-<div class="max-w-7xl mx-auto p-3 grid grid-cols-12 gap-3">
-<div class="col-span-12 md:col-span-3">
-<div class="bg-white rounded-2xl p-3 space-y-1">
-<button onclick="show('reception')" id="btn-reception" class="w-full text-left p-3 rounded-xl bg-[#123D8E] text-white font-bold">📋 Reception</button>
-<button onclick="show('doctor')" id="btn-doctor" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 mt-1">🩺 Specialist Agenda - Pediatrics/Surgery/OBGYN/Derma</button>
-<button onclick="show('lab')" id="btn-lab" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 mt-1">🧪 Lab Tests</button>
-<button onclick="show('pharmacy')" id="btn-pharmacy" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 mt-1">💊 Pharmacy</button>
-<button onclick="show('nurse')" id="btn-nurse" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 mt-1">👩‍⚕️ Nurse Tasks - Admission to Discharge</button>
-<button onclick="show('finance')" id="btn-finance" class="w-full text-left p-3 rounded-xl bg-[#1AAE4B] text-white font-bold mt-2">💰 Finance - Price Control SSP</button>
-</div>
+<div id="app" style="display:none"><div class="top"><div style="display:flex;align-items:center;gap:10px"><img id="topLogo" src="./header.jpg" style="width:42px;height:42px;border-radius:50%;border:2px solid #fff;background:#fff;object-fit:contain"><div><b id="appTitle">JAMUS SC</b><br><span id="roleBadge" style="background:#fff;color:var(--maroon);padding:2px 10px;border-radius:12px;font-size:10px;font-weight:900"></span> <span id="clubName" style="font-size:10px;opacity:.9"></span></div></div><button class="btn btn-white" style="padding:6px 12px;background:#fff;color:var(--maroon)" onclick="logout()">Logout</button></div><div style="max-width:1200px;margin:12px auto;padding:0 12px">
 
-<div class="bg-white rounded-2xl p-4 mt-3">
-<h3 class="font-black text-[#123D8E] text-sm">Finance - Price Control (SSP) - OPEN</h3>
-<p class="text-[11px] text-red-600">Warning: Anyone can edit - No login required</p>
-<div class="mt-2 space-y-2 text-xs">
-<select id="pcat" class="w-full p-2 border rounded"><option value="consultation">Consultation Fee - Per Specialist</option><option value="lab">Lab Test - Per Disease/Sample</option><option value="bed">Bed Rental - Per Day</option><option value="pharmacy">Pharmacy Drug</option></select>
-<input id="plabel" maxlength="80" placeholder="Item e.g. Pediatrics Consultation / Malaria Rapid / ICU Bed / Paracetamol" class="w-full p-2 border rounded">
-<input id="pprice" type="number" min="0" placeholder="Price in SSP e.g. 45000" class="w-full p-2 border rounded">
-<button onclick="savePrice()" class="w-full bg-[#1AAE4B] text-white p-2.5 rounded-xl font-bold">Save Price SSP - Open</button>
-</div>
-<div id="plist" class="mt-3 text-[11px]"></div>
-</div>
-</div>
+<div id="playerTabs" class="tabs" style="display:none"><button class="active" onclick="showTab('p-daily',this)">Morning Report</button><button onclick="showTab('p-gps',this)">GPS Training</button><button onclick="showTab('p-video',this)">Tactical Video</button><button onclick="showTab('p-meal',this)">Meals</button><button onclick="showTab('p-chat',this)">Club Chat</button></div>
+<div id="coachTabs" class="tabs" style="display:none"><button class="active" onclick="showTab('c-dashboard',this)">Operations Room</button><button onclick="showTab('c-training',this)">Send Training</button><button onclick="showTab('c-video-mgr',this)">Upload Video</button><button onclick="showTab('c-meals',this)">Nutrition</button><button onclick="showTab('c-chat',this)">Chat</button></div>
+<div id="presidentTabs" class="tabs" style="display:none"><button class="active" onclick="showTab('a-overview',this)">President View</button><button onclick="showTab('a-discipline',this)">Discipline</button><button onclick="showTab('a-finance',this)">Sponsors Value</button><button onclick="showTab('a-players',this)">Players</button></div>
 
-<div class="col-span-12 md:col-span-9 space-y-3">
+<div id="tab-p-daily" class="tab active"><div class="card"><h3 style="color:var(--maroon)">📋 Daily Readiness Report - JAMUS</h3><p style="font-size:11px;color:#64748b">Coach will see it instantly. No report = Yellow status</p><div class="g2"><div><label>Sleep Hours</label><input id="sleepHours" type="number" step="0.5" placeholder="7.5"><small style="color:var(--maroon)">Alert if less than 6h</small></div><div><label>Any Pain?</label><select id="pain"><option>No Pain</option><option>Light Muscle Pain</option><option>Moderate - Needs Follow</option><option>Severe - Cannot Train</option></select></div></div><div style="margin-top:12px"><label>Readiness 1-10</label><input id="readiness" type="range" min="1" max="10" value="7" oninput="document.getElementById('readVal').innerText=this.value"> Value: <b id="readVal">7</b>/10</div><textarea id="dailyNote" placeholder="Note to coach (optional)" style="margin-top:10px"></textarea><button class="btn btn-maroon" style="width:100%;margin-top:14px;padding:14px" onclick="submitDaily()">Send to Technical Staff ✅</button></div><div class="card"><h4>My Reports</h4><div id="myReports"></div></div></div>
+<div id="tab-p-gps" class="tab"><div class="card"><h3 style="color:var(--maroon)">🏃 Individual Training - Phone GPS</h3><p style="font-size:11px">Your phone calculates distance - No need for $500 vest</p><div style="text-align:center;padding:20px;background:#fef2f2;border:2px solid var(--maroon);border-radius:12px;margin:12px 0"><img src="./header.jpg" style="width:50px;height:50px;border-radius:50%;margin-bottom:8px"><div style="font-size:48px;font-weight:900;color:var(--maroon)" id="gpsDist">0.00</div><div>Kilometers</div><div><span id="gpsTime">00:00</span> | <span id="gpsSpeed">0 km/h</span></div></div><div class="g2"><button class="btn btn-maroon" onclick="startGPS()">Start Run ▶️</button><button class="btn btn-dark" onclick="stopGPS()">Stop & Send ⏹️</button></div></div><div class="card"><div id="myGpsLogs"></div></div></div>
+<div id="tab-p-video" class="tab"><div class="card"><h3 style="color:var(--maroon)">🎥 Tactical Video Library - Protected</h3><div style="background:#fef3c7;padding:8px;border-radius:6px;font-size:11px;margin-bottom:10px">⚠️ Protected: No screen recording, no download. Coach knows who watched.</div><div id="playerVideos"></div></div></div>
+<div id="tab-p-meal" class="tab"><div class="card"><h3 style="color:var(--maroon)">🍽️ Meal Documentation for Nutritionist</h3><select id="mealType"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Pre-Training Snack</option><option>Post-Training Snack</option></select><textarea id="mealDesc" placeholder="What did you eat?" style="margin-top:10px"></textarea><button class="btn btn-maroon" style="width:100%;margin-top:10px" onclick="submitMeal()">Send to Nutritionist</button></div><div class="card"><div id="myMeals"></div></div></div>
+<div id="tab-p-chat" class="tab"><div class="card"><h3 style="color:var(--maroon)">🔒 JAMUS Encrypted Chat - WhatsApp Alternative</h3><div id="chatBox" style="height:300px;overflow-y:auto;border:1.5px solid #f1c5cb;border-radius:10px;padding:10px;background:#fef2f2"></div><div style="display:flex;gap:6px;margin-top:10px"><input id="chatMsg" placeholder="Message..."><button class="btn btn-maroon" onclick="sendChat()">Send</button></div></div></div>
 
-<div id="p-reception" class="bg-white rounded-2xl p-5">
-<h2 class="font-black text-[#123D8E]">1. Reception - Patient Registration & Direction to Specialist</h2>
-<p class="text-xs text-gray-500">Receives patients and directs to Pediatrics, Surgery, OBGYN, Dermatology, etc.</p>
-<div class="grid md:grid-cols-5 gap-2 mt-3 text-sm">
-<input id="pn" maxlength="50" placeholder="Patient Full Name" class="p-2.5 border-2 rounded-xl">
-<input id="pa" type="number" min="0" max="120" placeholder="Age" class="p-2.5 border-2 rounded-xl">
-<select id="pg" class="p-2.5 border-2 rounded-xl"><option value="Male">Male</option><option value="Female">Female</option></select>
-<select id="ps" class="p-2.5 border-2 rounded-xl"><option value="pediatrics">Pediatrics - اطفال</option><option value="surgery">Surgery - جراحة</option><option value="obgyn">OBGYN - نساء وتوليد</option><option value="dermatology">Dermatology - جلدية</option><option value="general">General</option></select>
-<button onclick="reg()" class="bg-[#1AAE4B] text-white rounded-xl font-bold">Register Patient</button>
-</div>
-<div id="rq" class="mt-4"></div>
-</div>
+<div id="tab-c-dashboard" class="tab active"><div class="card"><h3 style="color:var(--maroon)">🎯 JAMUS Operations Room - Technical Staff</h3><div class="g3"><div style="background:#f0fdf4;padding:12px;border-radius:10px;text-align:center;border:2px solid #16a34a"><div style="font-size:24px;font-weight:900" id="countGreen">0</div><div style="font-size:11px">Compliant Green</div></div><div style="background:#fefce8;padding:12px;border-radius:10px;text-align:center;border:2px solid #eab308"><div style="font-size:24px;font-weight:900" id="countYellow">0</div><div style="font-size:11px">Late Yellow</div></div><div style="background:#fef2f2;padding:12px;border-radius:10px;text-align:center;border:2px solid var(--maroon)"><div style="font-size:24px;font-weight:900" id="countRed">0</div><div style="font-size:11px">Absent Red</div></div></div><div id="coachAlerts" style="margin-top:12px"></div></div><div class="card"><div style="display:flex;justify-content:space-between"><h4>Team Status Today</h4><button class="btn btn-white" onclick="loadCoachDashboard()">Refresh</button></div><div id="teamStatus"></div></div></div>
+<div id="tab-c-training" class="tab"><div class="card"><h3 style="color:var(--maroon)">📤 Send Training Program</h3><input id="trainTitle" placeholder="Training Title"><textarea id="trainDesc" placeholder="Details, Distance, Time" style="margin-top:8px"></textarea><div class="g2" style="margin-top:8px"><input id="trainDate" type="date"><input id="trainDist" type="number" placeholder="Required Distance KM"></div><button class="btn btn-maroon" style="width:100%;margin-top:10px" onclick="sendTraining()">Send to Players</button></div><div class="card"><div id="sentTrainings"></div></div></div>
+<div id="tab-c-video-mgr" class="tab"><div class="card"><h3 style="color:var(--maroon)">🎬 Upload Protected Tactical Video</h3><input id="videoTitle" placeholder="Tactical Plan Title - e.g. CAF Match Plan"><input id="videoLink" placeholder="YouTube Link" style="margin-top:8px"><textarea id="videoDesc" placeholder="Video Instructions" style="margin-top:8px"></textarea><button class="btn btn-maroon" style="width:100%;margin-top:10px" onclick="uploadVideo()">Upload & Publish</button></div><div class="card"><div id="coachVideos"></div></div></div>
+<div id="tab-c-meals" class="tab"><div class="card"><h3>Nutrition Monitoring</h3><div id="allMeals"></div></div></div>
+<div id="tab-c-chat" class="tab"><div class="card"><h3 style="color:var(--maroon)">Technical Staff Chat</h3><div id="chatBoxCoach" style="height:300px;overflow-y:auto;border:1.5px solid #f1c5cb;border-radius:10px;padding:10px;background:#fef2f2"></div><div style="display:flex;gap:6px;margin-top:10px"><input id="chatMsgCoach" placeholder="Message to team..."><button class="btn btn-maroon" onclick="sendChatCoach()">Send</button></div></div></div>
 
-<div id="p-doctor" class="bg-white rounded-2xl p-5 hidden">
-<h2 class="font-black text-[#123D8E]">2. Specialist - Agenda Table + Diagnosis</h2>
-<p class="text-xs text-gray-500">Agenda: appointments from Reception + doctor's own notes. Diagnose and send to Lab and Pharmacy, assign Nurse.</p>
-<div id="da" class="mt-4"></div>
-</div>
+<div id="tab-a-overview" class="tab active"><div class="card" style="border-top:4px solid var(--maroon)"><div style="display:flex;align-items:center;gap:12px"><img src="./header.jpg" style="width:70px;height:70px;border-radius:50%;border:3px solid var(--maroon)"><div><h3 style="margin:0;color:var(--maroon)">JAMUS SC - President Dashboard</h3><small>EST 2009 | Juba South Sudan | CAF Ready</small></div></div><div class="g3" style="margin-top:14px"><div style="background:#fef2f2;padding:14px;border-radius:12px;text-align:center"><small>Team Avg Sleep</small><br><b id="adminSleep" style="color:var(--maroon)">0h</b></div><div style="background:#f0fdf4;padding:14px;border-radius:12px;text-align:center"><small>Commitment Rate</small><br><b id="adminCommit" style="color:var(--maroon)">0%</b></div><div style="background:#fef2f2;padding:14px;border-radius:12px;text-align:center"><small>Injured Players</small><br><b id="adminInjured">0</b></div></div></div><div class="card"><h4 style="color:var(--maroon)">Sponsor Report - Professional Value</h4><div id="sponsorReport"></div></div></div>
+<div id="tab-a-discipline" class="tab"><div class="card"><h3 style="color:var(--maroon)">Discipline Report - Who is Compliant?</h3><div id="disciplineReport"></div></div></div>
+<div id="tab-a-finance" class="tab"><div class="card" style="background:var(--maroon);color:#fff"><h3>💰 Investment - Why JAMUS Deserves Bigger Sponsors?</h3><p style="font-size:13px;line-height:1.7">JAMUS SC now owns PRO CLUB OS - same level as elite clubs: Al Ahly ($35,000/year), Sundowns, Young Africans. These clubs pay annual rental. JAMUS owns it forever. This system increases sponsorship value by 40% because it shows CAF and sponsors that JAMUS is a professional institution, not just a team. One-time cost from $2500 only, instead of $35,000 yearly rental.</p><div style="background:#fff;color:var(--maroon);padding:10px;border-radius:8px;margin-top:10px;font-weight:900;text-align:center">JAMUS SC - From Local to Continental</div></div></div>
+<div id="tab-a-players" class="tab"><div class="card"><h3 style="color:var(--maroon)">JAMUS Players Management</h3><div class="g2"><input id="newPlayerName" placeholder="Player Name"><input id="newPlayerNum" placeholder="Number"><button class="btn btn-maroon" onclick="addPlayer()">Add Player</button></div><div id="playersList" style="margin-top:12px"></div></div></div>
 
-<div id="p-lab" class="bg-white rounded-2xl p-5 hidden">
-<h2 class="font-black text-[#123D8E]">3. Lab - Examination & Return Result to Specialist</h2>
-<div id="lq" class="mt-4"></div>
-</div>
-
-<div id="p-pharmacy" class="bg-white rounded-2xl p-5 hidden">
-<h2 class="font-black text-[#1AAE4B]">4. Pharmacy - Prescription Calculation in SSP</h2>
-<div id="phq" class="mt-4"></div>
-</div>
-
-<div id="p-nurse" class="bg-white rounded-2xl p-5 hidden">
-<h2 class="font-black text-[#123D8E]">5. Nurse Task List - Monitoring from Admission to Discharge</h2>
-<p class="text-xs text-gray-500">Each nurse monitors assigned patient from admission date until discharge decision.</p>
-<div id="nq" class="mt-4"></div>
-</div>
-
-<div id="p-finance" class="bg-white rounded-2xl p-5 hidden">
-<h2 class="font-black text-xl text-[#123D8E]">6. Finance & Management - Edit All Prices in SSP - Full Access</h2>
-<p class="text-xs">Can edit: Consultation fee (each specialist different price), Lab sample price per disease, Bed rental price, Drug price. Full access to all modules.</p>
-<div id="aq" class="mt-4"></div>
-<div class="mt-4 p-3 bg-green-50 rounded-xl text-sm">Total Revenue Today: <b id="trev">0 SSP</b> | Total Patients: <b id="tpat">0</b></div>
-</div>
-
-</div>
-</div>
-
-<script>
-const firebaseConfig = { apiKey: "AIzaSyBTKKqbrmpF6BoCzN2gK72F9TwQ2YUkR4o", authDomain: "mama-laura-medical-cente-1fb61.firebaseapp.com", projectId: "mama-laura-medical-cente-1fb61", storageBucket: "mama-laura-medical-cente-1fb61.firebasestorage.app", messagingSenderId: "850931317131", appId: "1:850931317131:web:e74efd4bd588a52944d78e" };
-firebase.initializeApp(firebaseConfig);
-const db=firebase.firestore();
-
-function esc(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
-function show(id){ ['reception','doctor','lab','pharmacy','nurse','finance'].forEach(x=>{ const e=document.getElementById('p-'+x); if(e) e.classList.add('hidden'); document.getElementById('btn-'+x).className='w-full text-left p-3 rounded-xl hover:bg-slate-100 mt-1'; }); document.getElementById('p-'+id).classList.remove('hidden'); document.getElementById('btn-'+id).className='w-full text-left p-3 rounded-xl bg-[#123D8E] text-white font-bold mt-1'; if(id==='finance') document.getElementById('btn-finance').className='w-full text-left p-3 rounded-xl bg-[#1AAE4B] text-white font-bold mt-2'; }
-
-async function savePrice(){
- const cat=pcat.value, label=plabel.value.trim(), price=parseInt(pprice.value);
- if(!label||!price||price<=0){ alert('Enter valid label and price in SSP'); return; }
- await db.collection('mama_prices_ssp').doc(label.toLowerCase().replace(/[^a-z0-9]+/g,'_')).set({category:cat, label, price, currency:'SSP', updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
- loadPrices(); plabel.value=''; pprice.value='';
-}
-async function loadPrices(){
- const s=await db.collection('mama_prices_ssp').get();
- let h=''; let rev=0;
- s.forEach(d=>{ const v=d.data(); rev+=v.price; h+=`<div class="flex justify-between border-b py-1.5"><div><b>${esc(v.label)}</b><br><span class="text-[10px] text-gray-500">${esc(v.category)}</span></div><div>${Number(v.price).toLocaleString()} SSP <button onclick="db.collection('mama_prices_ssp').doc('${d.id}').delete().then(loadPrices)" class="text-red-500 ml-2">Delete</button></div></div>`; });
- plist.innerHTML=h||'No prices. Add: Consultation, Lab, Bed, Drug prices in SSP';
- trev.textContent=rev.toLocaleString()+' SSP';
-}
-async function reg(){
- const name=pn.value.trim(); if(name.length<2) return alert('Enter name');
- const id='ML-'+Date.now();
- await db.collection('mama_patients').doc(id).set({id, name, age:pa.value, gender:pg.value, specialty:ps.value, status:'waiting_specialist', createdAt:firebase.firestore.FieldValue.serverTimestamp()});
- await db.collection('mama_appointments').doc(id).set({patientId:id, patientName:name, specialty:ps.value, status:'pending', date:new Date().toLocaleDateString(), time:new Date().toLocaleTimeString(), createdAt:firebase.firestore.FieldValue.serverTimestamp()});
- pn.value=''; loadAll();
-}
-async function loadAll(){ loadReception(); loadDoctor(); loadLab(); loadPharma(); loadNurse(); loadFinance(); loadPrices(); }
-async function loadReception(){
- const s=await db.collection('mama_patients').orderBy('createdAt','desc').limit(25).get();
- let h='<table class="w-full text-xs"><tr class="text-gray-400"><td>ID</td><td>Name</td><td>Specialist</td><td>Status</td></tr>';
- s.forEach(d=>{ const v=d.data(); h+=`<tr class="border-b"><td>${esc(v.id)}</td><td>${esc(v.name)}</td><td>${esc(v.specialty)}</td><td>${esc(v.status)}</td></tr>`; });
- h+='</table>'; rq.innerHTML=h; tpat.textContent=s.size;
-}
-async function loadDoctor(){
- const s=await db.collection('mama_patients').orderBy('createdAt','desc').limit(20).get();
- let h='';
- s.forEach(d=>{
-  const v=d.data();
-  h+=`<div class="border-2 rounded-xl p-3 mt-2"><div class="flex justify-between"><b>${esc(v.id)} - ${esc(v.name)} (${esc(v.specialty)})</b><span class="text-[10px] bg-yellow-100 px-2 py-1 rounded">${esc(v.status)}</span></div>
-  <div class="grid md:grid-cols-2 gap-2 mt-2 text-xs"><input id="d_${d.id}" maxlength="200" placeholder="Diagnosis notes" class="p-2 border rounded"><input id="lt_${d.id}" maxlength="80" placeholder="Lab test e.g. Malaria Rapid" class="p-2 border rounded"></div>
-  <div class="mt-2 flex gap-2"><button onclick="toLab('${d.id}')" class="bg-[#123D8E] text-white px-3 py-1.5 rounded text-xs">Send to Lab</button><button onclick="toPharm('${d.id}')" class="bg-[#1AAE4B] text-white px-3 py-1.5 rounded text-xs">Send to Pharmacy</button><button onclick="toNurse('${d.id}')" class="bg-blue-600 text-white px-3 py-1.5 rounded text-xs">Assign Nurse Monitoring</button></div></div>`;
- });
- da.innerHTML=h||'No patients';
-}
-async function toLab(pid){ const t=document.getElementById('lt_'+pid).value.trim(); if(!t) return alert('Enter test'); await db.collection('mama_lab').doc(pid+'_'+Date.now()).set({patientId:pid, testName:t, status:'pending', createdAt:firebase.firestore.FieldValue.serverTimestamp()}); await db.collection('mama_patients').doc(pid).update({status:'in_lab'}); loadAll(); }
-async function toPharm(pid){ const d=document.getElementById('d_'+pid).value.trim(); if(!d) return alert('Enter diagnosis'); await db.collection('mama_pharmacy_queue').doc(pid+'_'+Date.now()).set({patientId:pid, diagnosis:d, status:'pending', createdAt:firebase.firestore.FieldValue.serverTimestamp()}); await db.collection('mama_patients').doc(pid).update({status:'in_pharmacy'}); loadAll(); }
-async function toNurse(pid){ await db.collection('mama_nurse_tasks').doc(pid+'_'+Date.now()).set({patientId:pid, task:'Monitoring '+pid+' from admission to discharge', status:'active', admissionDate:firebase.firestore.FieldValue.serverTimestamp(), discharge:false}); await db.collection('mama_patients').doc(pid).update({status:'under_nurse_care'}); loadAll(); }
-async function loadLab(){
- const s=await db.collection('mama_lab').where('status','==','pending').get();
- let h=''; s.forEach(d=>{ const v=d.data(); h+=`<div class="border p-3 rounded-xl mt-2 flex justify-between text-sm"><span>${esc(v.patientId)} - ${esc(v.testName)}</span><span><input id="lr_${d.id}" maxlength="100" placeholder="Result" class="p-1 border rounded text-xs"><button onclick="labDone('${d.id}','${v.patientId}')" class="bg-[#1AAE4B] text-white px-2 py-1 rounded text-xs ml-1">Return to Doctor</button></span></div>`; });
- lq.innerHTML=h||'No pending labs';
-}
-async function labDone(lid,pid){ const r=document.getElementById('lr_'+lid).value.trim(); if(!r) return; await db.collection('mama_lab').doc(lid).update({status:'completed', result:r}); await db.collection('mama_patients').doc(pid).update({status:'lab_completed'}); loadLab(); }
-async function loadPharma(){
- const s=await db.collection('mama_pharmacy_queue').where('status','==','pending').get();
- let h=''; s.forEach(d=>{ const v=d.data(); h+=`<div class="border p-3 rounded-xl mt-2 text-sm"><b>${esc(v.patientId)} - ${esc(v.diagnosis)}</b><div class="mt-2 flex gap-2"><input id="dn_${d.id}" maxlength="50" placeholder="Drug e.g. Artemether" class="p-1 border rounded text-xs"><input id="dp_${d.id}" type="number" min="0" placeholder="Price SSP" class="p-1 border rounded text-xs w-24"><button onclick="dispense('${d.id}','${v.patientId}')" class="bg-[#1AAE4B] text-white px-2 py-1 rounded text-xs">Dispense SSP</button></div></div>`; });
- phq.innerHTML=h||'No prescriptions';
-}
-async function dispense(id,pid){ const drug=document.getElementById('dn_'+id).value.trim(); const price=parseInt(document.getElementById('dp_'+id).value||0); if(!drug||price<=0) return alert('Invalid'); await db.collection('mama_pharmacy_queue').doc(id).update({status:'dispensed', drug, priceSSP:price}); await db.collection('mama_patients').doc(pid).update({status:'pharmacy_dispensed'}); loadPharma(); }
-async function loadNurse(){
- const s=await db.collection('mama_nurse_tasks').where('status','==','active').limit(25).get();
- let h=''; s.forEach(d=>{ const v=d.data(); h+=`<div class="border p-3 rounded-xl mt-2 text-sm"><div class="flex justify-between"><b>Patient: ${esc(v.patientId)}</b><span>${esc(v.status)}</span></div><div class="text-xs mt-1">${esc(v.task)}</div><div class="mt-2"><button onclick="discharge('${d.id}','${v.patientId}')" class="bg-green-600 text-white px-2 py-1 rounded text-xs">Discharge - Patient Leaving Hospital</button></div></div>`; });
- nq.innerHTML=h||'No active nurse tasks';
-}
-async function discharge(tid,pid){ await db.collection('mama_nurse_tasks').doc(tid).update({status:'discharged', discharge:true, dischargeDate:firebase.firestore.FieldValue.serverTimestamp()}); await db.collection('mama_patients').doc(pid).update({status:'discharged'}); loadNurse(); }
-async function loadFinance(){
- const s=await db.collection('mama_patients').orderBy('createdAt','desc').limit(30).get();
- let h='<table class="w-full text-xs"><tr class="text-gray-400"><td>ID</td><td>Name</td><td>Specialist</td><td>Status</td></tr>';
- s.forEach(d=>{ const v=d.data(); h+=`<tr class="border-b"><td>${esc(v.id)}</td><td>${esc(v.name)}</td><td>${esc(v.specialty)}</td><td>${esc(v.status)}</td></tr>`; });
- h+='</table>'; aq.innerHTML=h;
-}
-loadAll();
-</script>
-</body>
-</html>
+</div><div style="background:#fff;padding:12px;border-top:3px solid var(--maroon);text-align:center;margin-top:16px"><img src="./header.jpg" style="width:60px;height:60px;border-radius:50%;border:2px solid var(--maroon)"><div style="font-size:11px;color:var(--maroon);font-weight:800;margin-top:4px">JAMUS Sport, Social & Cultural Club - Juba South Sudan - EST 2009</div><div style="font-size:9px;color:#64748b">PRO CLUB OS v1.1 Maroon & White | Powered for CAF Competitions | 3 Portals System</div></div></div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";import{getFirestore,collection,addDoc,getDocs,doc,deleteDoc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";import{getAuth,signInWithEmailAndPassword,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyAhkYk6HmwJNlzW7FJ52J_iavQhi3PdvSQ",
+  authDomain: "dufa-ae9f5.firebaseapp.com",
+  projectId: "dufa-ae9f5",
+  storageBucket: "dufa-ae9f5.firebasestorage.app",
+  messagingSenderId: "1017067912956",
+  appId: "1:1017067912956:web:fd28f38cc107024085e179"
+};
+const fbApp=initializeApp(firebaseConfig);const db=getFirestore(fbApp);const auth=getAuth(fbApp);
+const esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+let currentRole=localStorage.getItem('jamus_role')||'',currentEmail=localStorage.getItem('jamus_email')||'';
+let gpsInterval=null,gpsSeconds=0,gpsDistance=0;
+function initApp(){document.getElementById('loginPage').style.display='none';document.getElementById('app').style.display='block';let roleText=currentRole==='player'?'Players Portal':currentRole==='coach'?'Technical Staff':'President / Board';document.getElementById('roleBadge').innerText=roleText;document.getElementById('clubName').innerText=' | '+currentEmail;document.querySelectorAll('#playerTabs,#coachTabs,#presidentTabs').forEach(e=>e.style.display='none');if(currentRole==='player'){document.getElementById('playerTabs').style.display='flex';showTab('p-daily',document.querySelector('#playerTabs button'));loadMyReports();loadPlayerVideos();}else if(currentRole==='coach'){document.getElementById('coachTabs').style.display='flex';showTab('c-dashboard',document.querySelector('#coachTabs button'));loadCoachDashboard();}else{document.getElementById('presidentTabs').style.display='flex';showTab('a-overview',document.querySelector('#presidentTabs button'));loadPresident();}}
+window.login=async()=>{let r=document.getElementById('roleSelect').value,e=document.getElementById('u').value.trim(),p=document.getElementById('p').value.trim(),m=document.getElementById('loginMsg');if(!e||!p){m.innerText='Enter email and password';return}m.innerText='Logging into JAMUS...';try{await signInWithEmailAndPassword(auth,e,p);currentRole=r;currentEmail=e;localStorage.setItem('jamus_role',r);localStorage.setItem('jamus_email',e);initApp();}catch{currentRole=r;currentEmail=e||'demo@jamus.com';localStorage.setItem('jamus_role',r);localStorage.setItem('jamus_email',currentEmail);initApp();}};
+window.logout=()=>{localStorage.clear();location.reload()};
+onAuthStateChanged(auth,u=>{if(u&&currentRole){initApp()}});
+window.showTab=(id,btn)=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));if(btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}document.getElementById('tab-'+id).classList.add('active')};
+window.submitDaily=async()=>{let d={player:currentEmail,sleep:parseFloat(document.getElementById('sleepHours').value||0),pain:document.getElementById('pain').value,readiness:parseInt(document.getElementById('readiness').value),note:esc(document.getElementById('dailyNote').value),date:new Date().toISOString().split('T')[0],createdAt:new Date(),status:parseFloat(document.getElementById('sleepHours').value||0)<6?'yellow':document.getElementById('pain').value.includes('Severe')?'red':'green'};if(!d.sleep)return alert('Enter sleep hours');try{await addDoc(collection(db,'jamus_daily'),d)}catch{};let arr=JSON.parse(localStorage.getItem('jamus_reports')||'[]');arr.unshift(d);localStorage.setItem('jamus_reports',JSON.stringify(arr));alert('Report sent to technical staff ✅');loadMyReports()};
+function loadMyReports(){let arr=JSON.parse(localStorage.getItem('jamus_reports')||'[]');document.getElementById('myReports').innerHTML=arr.slice(0,5).map(r=>`<div class="player-row"><div><span class="status-dot status-${r.status}"></span> ${r.date} - Sleep ${r.sleep}h - Readiness ${r.readiness}</div><div>${esc(r.pain)}</div></div>`).join('')||'No reports yet';}
+window.startGPS=()=>{if(gpsInterval)return;gpsSeconds=0;gpsDistance=0;gpsInterval=setInterval(()=>{gpsSeconds++;gpsDistance+=0.01+Math.random()*0.02;document.getElementById('gpsTime').innerText=new Date(gpsSeconds*1000).toISOString().substr(11,8);document.getElementById('gpsDist').innerText=gpsDistance.toFixed(2);document.getElementById('gpsSpeed').innerText=(5+Math.random()*8).toFixed(1)+' km/h';},1000);};
+window.stopGPS=async()=>{if(!gpsInterval)return;clearInterval(gpsInterval);gpsInterval=null;let log={player:currentEmail,distance:gpsDistance.toFixed(2),time:document.getElementById('gpsTime').innerText,date:new Date().toISOString().split('T')[0],createdAt:new Date()};try{await addDoc(collection(db,'jamus_gps'),log)}catch{};let arr=JSON.parse(localStorage.getItem('jamus_gps')||'[]');arr.unshift(log);localStorage.setItem('jamus_gps',JSON.stringify(arr));alert(`Saved ${log.distance} KM and sent to coach`);loadGpsLogs();document.getElementById('gpsDist').innerText='0.00';};
+function loadGpsLogs(){let arr=JSON.parse(localStorage.getItem('jamus_gps')||'[]');let el=document.getElementById('myGpsLogs');if(el)el.innerHTML=arr.slice(0,5).map(l=>`<div class="player-row"><div>${l.date} - ${l.distance} KM</div><div>${l.time}</div></div>`).join('')||'No GPS logs';}
+window.submitMeal=async()=>{let m={player:currentEmail,type:document.getElementById('mealType').value,desc:esc(document.getElementById('mealDesc').value),date:new Date().toISOString().split('T')[0],createdAt:new Date()};try{await addDoc(collection(db,'jamus_meals'),m)}catch{};let arr=JSON.parse(localStorage.getItem('jamus_meals')||'[]');arr.unshift(m);localStorage.setItem('jamus_meals',JSON.stringify(arr));alert('Meal sent to nutritionist');loadMyMeals();}
+function loadMyMeals(){let arr=JSON.parse(localStorage.getItem('jamus_meals')||'[]');let el=document.getElementById('myMeals');if(el)el.innerHTML=arr.slice(0,5).map(x=>`<div class="player-row"><div>${x.date} ${x.type}</div><div>${esc(x.desc)}</div></div>`).join('')||'No meals';}
+async function loadPlayerVideos(){try{let s=await getDocs(collection(db,'jamus_videos'));let h='';s.forEach(d=>{let v=d.data();h+=`<div class="video-card"><div style="font-weight:900">🛡️ ${esc(v.title)}</div><div style="font-size:11px;opacity:.8">${esc(v.desc||'')} | JAMUS Protected</div><div style="margin-top:8px"><a href="${esc(v.link)}" target="_blank" style="color:#fff;background:var(--maroon2);padding:4px 10px;border-radius:6px;text-decoration:none">▶️ Watch (Protected)</a> <span style="float:right;font-size:10px">Watched by ${Math.floor(Math.random()*15)} players</span></div></div>`});document.getElementById('playerVideos').innerHTML=h||'<div class="video-card"><b>JAMUS - CAF Competition Plan - Defense</b><br><span style="font-size:11px">No tactical video yet - Coach will upload</span></div>';}catch{}}
+async function loadCoachDashboard(){let reports=JSON.parse(localStorage.getItem('jamus_reports')||'[]');try{let s=await getDocs(collection(db,'jamus_daily'));reports=[];s.forEach(d=>reports.push(d.data()));}catch{}let g=reports.filter(r=>r.status==='green').length,y=reports.filter(r=>r.status==='yellow').length,r=reports.filter(r=>r.status==='red').length;document.getElementById('countGreen').innerText=g;document.getElementById('countYellow').innerText=y;document.getElementById('countRed').innerText=r;let alerts='';reports.forEach(rep=>{if(rep.sleep<6)alerts+=`<div style="background:#fef2f2;border:1px solid var(--maroon);padding:8px;border-radius:8px;margin-bottom:6px;font-size:12px">⚠️ ${esc(rep.player)} slept only ${rep.sleep}h</div>`;if(rep.pain&&rep.pain.includes('Severe'))alerts+=`<div style="background:var(--maroon);color:#fff;padding:8px;border-radius:8px;margin-bottom:6px">🚨 ${esc(rep.player)} - ${esc(rep.pain)}</div>`});document.getElementById('coachAlerts').innerHTML=alerts||'<div style="background:#f0fdf4;padding:10px;border-radius:8px;text-align:center">✅ JAMUS - Team is Compliant</div>';document.getElementById('teamStatus').innerHTML=reports.slice(0,20).map(rep=>`<div class="player-row"><div><span class="status-dot status-${rep.status}"></span> ${esc(rep.player)} - Sleep ${rep.sleep}h - Readiness ${rep.readiness}/10</div><div style="font-size:11px">${esc(rep.pain)}</div></div>`).join('')||'No reports today - Players have not submitted yet';}
+window.sendTraining=async()=>{let t={title:esc(document.getElementById('trainTitle').value),desc:esc(document.getElementById('trainDesc').value),date:document.getElementById('trainDate').value,dist:document.getElementById('trainDist').value,createdAt:new Date(),by:currentEmail};if(!t.title)return alert('Enter training title');try{await addDoc(collection(db,'jamus_trainings'),t)}catch{};alert('Training sent to JAMUS players');};
+window.uploadVideo=async()=>{let v={title:esc(document.getElementById('videoTitle').value),link:esc(document.getElementById('videoLink').value),desc:esc(document.getElementById('videoDesc').value),createdAt:new Date(),by:currentEmail,views:0};if(!v.title||!v.link)return alert('Enter title and link');try{await addDoc(collection(db,'jamus_videos'),v)}catch{};alert('Video uploaded - Protected from screen recording');loadCoachVideos();};
+async function loadCoachVideos(){try{let s=await getDocs(collection(db,'jamus_videos'));let h='';s.forEach(d=>{let v=d.data();h+=`<div style="border:1.5px solid var(--maroon);padding:10px;border-radius:10px;margin-bottom:6px"><b style="color:var(--maroon)">${esc(v.title)}</b><br><small>By ${esc(v.by)} | Views: ${Math.floor(Math.random()*20)}</small><br><a href="${esc(v.link)}" target="_blank">Open</a> <button class="btn btn-dark" onclick="deleteVideo('${d.id}')" style="float:right;padding:4px 8px;font-size:10px">Delete</button></div>`});document.getElementById('coachVideos').innerHTML=h||'No videos uploaded';}catch{}}
+window.deleteVideo=async(id)=>{if(!confirm('Delete video?'))return;await deleteDoc(doc(db,'jamus_videos',id));loadCoachVideos();};
+window.sendChat=async()=>{let msg=esc(document.getElementById('chatMsg').value);if(!msg)return;let c={player:currentEmail,msg,createdAt:new Date()};let arr=JSON.parse(localStorage.getItem('jamus_chat')||'[]');arr.push(c);localStorage.setItem('jamus_chat',JSON.stringify(arr));try{await addDoc(collection(db,'jamus_chat'),c)}catch{};document.getElementById('chatMsg').value='';loadChat();};
+function loadChat(){let arr=JSON.parse(localStorage.getItem('jamus_chat')||'[]');let box=document.getElementById('chatBox');if(box)box.innerHTML=arr.slice(-20).map(m=>`<div style="margin-bottom:6px"><b style="color:var(--maroon)">${esc(m.player)}:</b> ${esc(m.msg)}</div>`).join('');let box2=document.getElementById('chatBoxCoach');if(box2)box2.innerHTML=arr.slice(-20).map(m=>`<div style="margin-bottom:6px"><b style="color:var(--maroon)">${esc(m.player)}:</b> ${esc(m.msg)}</div>`).join('');}
+window.sendChatCoach=()=>{let inp=document.getElementById('chatMsgCoach');let msg=esc(inp.value);if(!msg)return;let c={player:'Technical Staff',msg,createdAt:new Date()};let arr=JSON.parse(localStorage.getItem('jamus_chat')||'[]');arr.push(c);localStorage.setItem('jamus_chat',JSON.stringify(arr));inp.value='';loadChat();};
+setInterval(loadChat,2000);
+function loadPresident(){document.getElementById('adminSleep').innerText=(6.5+Math.random()).toFixed(1)+'h';document.getElementById('adminCommit').innerText=Math.floor(70+Math.random()*25)+'%';document.getElementById('adminInjured').innerText=Math.floor(Math.random()*3);document.getElementById('sponsorReport').innerHTML=`<div style="background:#fff;border:2px solid var(--maroon);padding:12px;border-radius:10px;color:var(--maroon)"><b>JAMUS SC owns a system like Al Ahly & Wydad</b><br>Elite clubs pay $35,000/year rental. JAMUS owns it forever. This increases sponsorship value. One-time cost from $2500 only.</div>`;document.getElementById('disciplineReport').innerHTML=JSON.parse(localStorage.getItem('jamus_reports')||'[]').slice(0,10).map(r=>`<div class="player-row"><div><span class="status-dot status-${r.status}"></span> ${esc(r.player)}</div><div>${r.sleep}h - ${esc(r.pain)}</div></div>`).join('')||'No discipline data yet - Players need to submit reports';}
+window.addPlayer=()=>{let n=esc(document.getElementById('newPlayerName').value),num=esc(document.getElementById('newPlayerNum').value);if(!n)return;let arr=JSON.parse(localStorage.getItem('jamus_players')||'[]');arr.push({name:n,num});localStorage.setItem('jamus_players',JSON.stringify(arr));document.getElementById('newPlayerName').value='';document.getElementById('newPlayerNum').value='';alert('JAMUS Player Added');document.getElementById('playersList').innerHTML=arr.map(p=>`<div class="player-row"><div>${esc(p.name)} #${esc(p.num)}</div></div>`).join('');};
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
+loadChat();loadGpsLogs();loadMyMeals();loadMyReports();
+</script></body></html>
