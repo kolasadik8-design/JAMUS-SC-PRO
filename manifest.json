@@ -1,0 +1,13 @@
+{
+  "name": "JAMUS SC - PRO CLUB OS",
+  "short_name": "JAMUS SC",
+  "description": "JAMUS Sport, Social & Cultural Club Juba - PRO CLUB OS Maroon & White - 3 Portals",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#7A0C1A",
+  "theme_color": "#7A0C1A",
+  "icons": [
+    {"src": "./header.jpg","sizes": "192x192","type": "image/jpeg"},
+    {"src": "./header.jpg","sizes": "512x512","type": "image/jpeg"}
+  ]
+}
